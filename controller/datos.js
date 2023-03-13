@@ -28,7 +28,7 @@ export const editarDatos = async (req,res) => {
     });
     datos.set(req.body);
     await datos.save();
-    res.status(201).json({ message: "actualizado" });
+    res.status(200).json({ message: "actualizado" });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
