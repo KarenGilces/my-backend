@@ -11,7 +11,7 @@ export const DatosModel = sequelize.define("datos", {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  apellido: {
+  apellidos: {
     type: DataTypes.STRING,
     allowNull: false
   },

@@ -3,10 +3,14 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { TOKEN_KEY } from "../config/config.js";
 
+
 export const getUsers = async (req, res) => {
   try {
-    const users = await UserModel.findAll({where: {state:true}});
-    res.status(200).json(users);
+    const users = await UserModel.findAll({
+      attributes: ['id', 'user', 'email', 'typeusers_id']
+    },{where: {state:true}});
+  
+    res.status(200).json({users});
   } catch (error) {
       res.status(500).json({ error: error.message });
   }
