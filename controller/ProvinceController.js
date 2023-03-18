@@ -1,28 +1,37 @@
 import { ProvinceModel } from "../models/ProvinceModel.js";
 
 export const getProvince = async (req, res) => {
-    try {
-        const types = await ProvinceModel.findAll({ where: { state: true } });
-        res.status(200).json(types);
-      } catch (error) {
-        res.status(500).json({ error: error.message });
-      }
+  try {
+    const provincias = await ProvinceModel.findAll({
+      attributes: ['id', 'code', 'name']
+    },{where: {state:true}});
+  
+    res.status(200).json({provincias});
+   
+  } catch (error) {
+      res.status(500).json({ error: error.message });
+  }
 };
 
 export const createProvince = async (req, res) => {
-    try {
-        // Get type input
-        const { type } = req.body;
-        // Validate type input
-        if (!type) {
-          res.status(400).json({ message: "type is required" });
-        }
-        // Create type in our database
-        const types = await ProvinceModel.create(req.body);
-        res.status(201).json({ message: "create", types });
-      } catch (error) {
-        res.status(500).json({ error: error.message });
-      }
+  try {
+    const { code, name} = req.body;
+    if (!(code ||  name  )) {
+      res.status(400).json({ message: "all input is required" });
+    }
+    const oldUser = await ProvinceModel.findOne({ where: { code: code } });
+    if (oldUser) {
+      return res.status(409).json("code already exist, enter again");
+    }
+    const users = await ProvinceModel.create({
+        code,
+        name, 
+       
+    });
+    res.status(201).json({ users});
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
 export const updateProvince = async (req, res) => {
     if (!req.body.type) {

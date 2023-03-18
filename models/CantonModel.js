@@ -20,10 +20,7 @@ export const CantonModel = sequelize.define(
         allowNull: false,
       },
     
-      date: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
+      
       state: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,

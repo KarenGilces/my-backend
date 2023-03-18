@@ -1,11 +1,11 @@
 import { VerifyUserProfileModel } from "../models/VerifyUserProfileModel.js";
 export const getVerifyUser = async (req, res) => {
     try {
-        const users = await VerifyUserProfileModel.findAll({
+        const perfilUsuario = await VerifyUserProfileModel.findAll({
           attributes: ['id', 'detail', 'date', 'users_id','verificationType_id']
         },{where: {state:true}});
       
-        res.status(200).json({users});
+        res.status(200).json({perfilUsuario});
        
       } catch (error) {
           res.status(500).json({ error: error.message });
