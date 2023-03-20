@@ -12,6 +12,7 @@ import  routerUserPermission from './router/UserPermissionRouter.js';
 import  routerProvince from './router/ProvinceRouter.js';
 import  routerCanton from './router/CantonRouter.js';
 import  routerVehiculo from './router/VehiculoRouter.js';
+import  routerDatosPersonales from './router/datosPersonalesRouter.js';
 import { sequelize } from "./db/conexion.js";
 
 const _PORT = PORT || 3000;
@@ -28,6 +29,7 @@ app.use('/api', routerUserPermission);
 app.use('/api', routerProvince);
 app.use('/api', routerCanton);
 app.use('/api', routerVehiculo);
+app.use('/api', routerDatosPersonales);
 const main = async () => {
     try {
         await sequelize.authenticate();

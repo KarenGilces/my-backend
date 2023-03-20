@@ -42,10 +42,7 @@ export const DatosPersonalesModel = sequelize.define(
       minBibliografia: {
         type: DataTypes.STRING,
         allowNull: false,
-      }, state: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: true,
-      },
+      }, 
       state: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,
@@ -57,5 +54,5 @@ export const DatosPersonalesModel = sequelize.define(
   }
 );
 
-CantonModel.hasMany(DatosPersonalesModel, { foreignKey: "provinces_id" });
-DatosPersonalesModel.belongsTo(CantonModel, { foreignKey: "provinces_id" });
+CantonModel.hasMany(DatosPersonalesModel, { foreignKey: "cantones_id" });
+DatosPersonalesModel.belongsTo(CantonModel, { foreignKey: "cantones_id" });
