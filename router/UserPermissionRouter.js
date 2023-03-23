@@ -3,10 +3,10 @@ import { getUserPermission,createUserPermission,updateUserPermission,deleteUserP
 import  {verifyToken}  from '../middleware/auth.js';
 const rotuer = express.Router();
 
-rotuer.get('/type/users',verifyToken, getUserPermission);
-rotuer.post('/type/users',verifyToken, createUserPermission);
-rotuer.put('/type/users/:id',verifyToken, updateUserPermission);
-rotuer.delete('/type/users/:id',verifyToken,  deleteUserPermission);
+rotuer.get('/users/permisson',verifyToken, getUserPermission);
+rotuer.post('/users/permisson',verifyToken, createUserPermission);
+rotuer.put('/users/permisson/:id',verifyToken, updateUserPermission);
+rotuer.delete('/users/permisson/:id',verifyToken,  deleteUserPermission);
 
 
 export default rotuer;
