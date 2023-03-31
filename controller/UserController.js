@@ -127,11 +127,12 @@ export const login = async (req, res) => {
           email:user.email,
           typeusers_id:user.typeusers_id
       }
-      res.status(200).json({ dataUser, token: token });
+     return  res.status(200).json({ dataUser, token: token });
     }
-    res.status(400).json({message:"Invalid credentials"});
+    return res.status(400).json({message:"Invalid credentials"});
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    
+    return res.status(500).json({ error:"error"});
   }
   // Our register logic ends here
 };
