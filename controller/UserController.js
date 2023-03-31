@@ -98,9 +98,9 @@ export const deleteUsers = async (req, res) => {
   if (user) {
     user.set({ ...user, state: false });
     await user.save();
-    res.status(200).json({ message: "delete" });
+   return  res.status(200).json({ message: "delete" });
   } else {
-    res.status(404).json({ message: "type not found" });
+    return res.status(404).json({ message: "type not found" });
   }
 };
 export const login = async (req, res) => {
