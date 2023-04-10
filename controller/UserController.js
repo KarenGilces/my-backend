@@ -17,8 +17,8 @@ export const getUsers = async (req, res) => {
 };
 export const createUsers = async (req, res) => {
   try {
-    const { user, email, password, typeusers_id } = req.body;
-    if (!(user ||  email ||  password ||  typeusers_id)) {
+    const { user, email, password } = req.body;
+    if (!(user ||  email ||  password )) {
       res.status(400).json({ message: "all input is required" });
     }
     // check if email already exist
@@ -34,7 +34,7 @@ export const createUsers = async (req, res) => {
       user,
       email: email.toLowerCase(), // sanitize: convert email to lowercase
       password: encryptedPassword,
-      typeusers_id,
+      typeusers_id:1
     });
     // Create token
     const token = jwt.sign({ user_id: users.id, email }, TOKEN_KEY, {
@@ -47,6 +47,8 @@ export const createUsers = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+
 export const updateUsers = async (req, res) => {
   const { user } = req.body;
   if (!(user)) {
