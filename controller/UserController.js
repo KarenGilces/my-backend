@@ -110,7 +110,7 @@ export const login = async (req, res) => {
     // Get user input
     const { email, password } = req.body;
     // Validate user input
-    if (!(email && password)) {
+    if (!(email || password)) {
       res.status(400).json({message:"All input is required"});
     }
     // Validate if user exist in our database
@@ -139,7 +139,6 @@ export const login = async (req, res) => {
   // Our register logic ends here
 };
 export const logout = async (req, res)=>{
-
 }
 export const refresh = (req, res) => {
 	
