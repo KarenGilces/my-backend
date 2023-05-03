@@ -61,3 +61,19 @@ export const deleteDatos = async (req, res) => {
     res.status(404).json({ message: "type not found" });
   }
 };
+
+export const createUpdateLastName = async (req, res) => {
+  
+  if(!req.params.id){
+     return res.status(404).json({ message: "usuario no encontrado"});
+  }
+  if (!req.body.apellido) {
+      return res.status(400).json({ message: "apellido is required" });
+    }
+    const datos = await DatosPersonalesModel.findOne({ where: { id: req.params.id } });
+    if (datos) {
+        datos.set({ ...datos, lastname: req.body.apellido });
+        await datos.save();
+       return res.status(200).json({ message: "apellido actualizado"});
+    }
+};

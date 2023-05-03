@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../db/conexion.js";
 import { TypeUsersModel } from "./TypeUsersModel.js";
-
+import { DatosPersonalesModel } from "./DatosPersonalesModel.js";
 export const UserModel = sequelize.define(
   "users",
   {
@@ -9,10 +9,6 @@ export const UserModel = sequelize.define(
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
-    },
-    user: {
-      type: DataTypes.STRING,
-      allowNull: false,
     },
     password: {
       type: DataTypes.STRING,
@@ -34,3 +30,5 @@ export const UserModel = sequelize.define(
 
 TypeUsersModel.hasMany(UserModel, { foreignKey: "typeusers_id" });
 UserModel.belongsTo(TypeUsersModel, { foreignKey: "typeusers_id" });
+DatosPersonalesModel.hasMany(UserModel, { foreignKey: "datosperson_id" });
+UserModel.belongsTo(DatosPersonalesModel, { foreignKey: "datosperson_id" });

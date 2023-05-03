@@ -1,4 +1,5 @@
 import { UserModel } from "../models/UserModel.js";
+import { DatosPersonalesModel } from "../models/DatosPersonalesModel.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { TOKEN_KEY } from "../config/config.js";
@@ -17,8 +18,8 @@ export const getUsers = async (req, res) => {
 };
 export const createUsers = async (req, res) => {
   try {
-    const { user, email, password } = req.body;
-    if (!(user ||  email ||  password )) {
+    const { names, email, password } = req.body;
+    if (!(names ||  email ||  password )) {
       res.status(400).json({ message: "all input is required" });
     }
     // check if email already exist
@@ -30,12 +31,16 @@ export const createUsers = async (req, res) => {
     //Encrypt user password
    const encryptedPassword = await bcrypt.hash(password.toString(),10);
     // Create user in our database
+    const d =  await DatosPersonalesModel.create({
+      names:names
+    });
     const users = await UserModel.create({
-      user,
       email: email.toLowerCase(), // sanitize: convert email to lowercase
       password: encryptedPassword,
-      typeusers_id:1
+      typeusers_id:2,
+      datosperson_id:d.id
     });
+    
     // Create token
     const token = jwt.sign({ user_id: users.id, email }, TOKEN_KEY, {
       expiresIn: "1h",
@@ -125,9 +130,9 @@ export const login = async (req, res) => {
       // user
       let dataUser={
           id:user.id,
-          user:user.user,
           email:user.email,
-          typeusers_id:user.typeusers_id
+          typeusers_id:user.typeusers_id,
+          person_id:user.datosperson_id
       }
      return  res.status(200).json({ dataUser, token: token });
     }

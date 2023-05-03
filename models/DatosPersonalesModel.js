@@ -10,38 +10,37 @@ export const DatosPersonalesModel = sequelize.define(
       primaryKey: true,
       autoIncrement: true,
     },
-    
-      cedula: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
       names: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      email: {
+      lastname: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
+      },
+      cedula: {
+        type: DataTypes.STRING,
+        allowNull: true,
       },
       date: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       celular: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       sexo: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       foto: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       minBibliografia: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       }, 
       state: {
         type: DataTypes.BOOLEAN,
@@ -54,5 +53,5 @@ export const DatosPersonalesModel = sequelize.define(
   }
 );
 
-CantonModel.hasMany(DatosPersonalesModel, { foreignKey: "cantones_id" });
-DatosPersonalesModel.belongsTo(CantonModel, { foreignKey: "cantones_id" });
+//CantonModel.hasMany(DatosPersonalesModel, { foreignKey: "cantones_id" });
+//DatosPersonalesModel.belongsTo(CantonModel, { foreignKey: "cantones_id" });
