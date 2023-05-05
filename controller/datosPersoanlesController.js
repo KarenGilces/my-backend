@@ -77,3 +77,78 @@ export const createUpdateLastName = async (req, res) => {
        return res.status(200).json({ message: "apellido actualizado"});
     }
 };
+export const createUpdateCedula = async (req, res) => {
+  
+  if(!req.params.id){
+     return res.status(404).json({ message: "cedula no encontrada"});
+  }
+  if (!req.body.cedula) {
+      return res.status(400).json({ message: "cedula is required" });
+    }
+    const datos = await DatosPersonalesModel.findOne({ where: { id: req.params.id } });
+    if (datos) {
+        datos.set({ ...datos, cedula: req.body.cedula });
+        await datos.save();
+       return res.status(200).json({ message: "cedula actualizado"});
+    }
+};
+export const createUpdateCelular = async (req, res) => {
+  
+  if(!req.params.id){
+     return res.status(404).json({ message: "celular no encontrada"});
+  }
+  if (!req.body.celular) {
+      return res.status(400).json({ message: "celular is required" });
+    }
+    const datos = await DatosPersonalesModel.findOne({ where: { id: req.params.id } });
+    if (datos) {
+        datos.set({ ...datos, celular: req.body.celular });
+        await datos.save();
+       return res.status(200).json({ message: "celular actualizado"});
+    }
+};
+export const createUpdateSexo= async (req, res) => {
+  
+  if(!req.params.id){
+     return res.status(404).json({ message: "sexo no encontrada"});
+  }
+  if (!req.body.sexo) {
+      return res.status(400).json({ message: "sexo is required" });
+    }
+    const datos = await DatosPersonalesModel.findOne({ where: { id: req.params.id } });
+    if (datos) {
+        datos.set({ ...datos, sexo: req.body.sexo });
+        await datos.save();
+       return res.status(200).json({ message: "sexo actualizado"});
+    }
+};
+export const createUpdateMinBibliografia= async (req, res) => {
+  
+  if(!req.params.id){
+     return res.status(404).json({ message: "minBibliografia no encontrada"});
+  }
+  if (!req.body.minBibliografia) {
+      return res.status(400).json({ message: "minBibliografia is required" });
+    }
+    const datos = await DatosPersonalesModel.findOne({ where: { id: req.params.id } });
+    if (datos) {
+        datos.set({ ...datos, minBibliografia: req.body.minBibliografia });
+        await datos.save();
+       return res.status(200).json({ message: "minBibliografia actualizado"});
+    }
+};
+export const createUpdateDate= async (req, res) => {
+  
+  if(!req.params.id){
+     return res.status(404).json({ message: "date no encontrada"});
+  }
+  if (!req.body.date) {
+      return res.status(400).json({ message: "date is required" });
+    }
+    const datos = await DatosPersonalesModel.findOne({ where: { id: req.params.id } });
+    if (datos) {
+        datos.set({ ...datos, date: req.body.date });
+        await datos.save();
+       return res.status(200).json({ message: "date actualizado"});
+    }
+};
