@@ -152,3 +152,18 @@ export const createUpdateDate= async (req, res) => {
        return res.status(200).json({ message: "date actualizado"});
     }
 };
+export const createUpdateNames = async (req, res) => {
+  
+  if(!req.params.id){
+     return res.status(404).json({ message: "names no encontrada"});
+  }
+  if (!req.body.names) {
+      return res.status(400).json({ message: "names is required" });
+    }
+    const datos = await DatosPersonalesModel.findOne({ where: { id: req.params.id } });
+    if (datos) {
+        datos.set({ ...datos, names: req.body.names });
+        await datos.save();
+       return res.status(200).json({ message: "names actualizado"});
+    }
+};
