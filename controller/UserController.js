@@ -8,7 +8,7 @@ import { TOKEN_KEY } from "../config/config.js";
 export const getUsers = async (req, res) => {
   try {
     const users = await UserModel.findAll({
-      attributes: ['id', 'user', 'email', 'typeusers_id']
+      attributes: ['id', 'email', 'typeusers_id']
     },{where: {state:true}});
   
     res.status(200).json({users});

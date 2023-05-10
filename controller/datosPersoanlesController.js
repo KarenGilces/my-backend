@@ -2,8 +2,8 @@ import { DatosPersonalesModel } from "../models/DatosPersonalesModel.js";
 export const getDatos = async (req, res) => {
     try {
         const datos = await DatosPersonalesModel.findAll({
-          attributes: ['id', 'cedula', 'names', 'email','date','celular','sexo', 'foto'
-          ,'minBibliografia','cantones_id']
+          attributes: ['id', 'names','lastname','cedula', 'date','celular','sexo', 'foto'
+          ,'minBibliografia']
         },{where: {state:true}});
       
         res.status(200).json({datos});
