@@ -1,7 +1,7 @@
 import { DatosPersonalesModel } from "../models/DatosPersonalesModel.js";
 export const getDatos = async (req, res) => {
     try {
-        const datos = await DatosPersonalesModel.findAll({
+        const datos = await DatosPersonalesModel.findOne({ where: {  id: req.params.id }})({
           attributes: ['id', 'names','lastname','cedula', 'date','celular','sexo', 'foto'
           ,'minBibliografia']
         },{where: {state:true}});

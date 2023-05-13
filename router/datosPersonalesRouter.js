@@ -3,7 +3,7 @@ import { getDatos ,createDatos,updateDatos,deleteDatos,createUpdateLastName,crea
 import  {verifyToken}  from '../middleware/auth.js';
 const rotuer = express.Router();
 
-rotuer.get('/datos',getDatos );
+rotuer.get('/datos/:id',getDatos );
 rotuer.post('/datos',verifyToken,createDatos);
 rotuer.put('/datos/lastname/:id',verifyToken,createUpdateLastName);
 rotuer.put('/datos/names/:id',verifyToken,createUpdateNames);
