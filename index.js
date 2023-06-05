@@ -2,17 +2,26 @@
 import express from 'express';
 import cors from "cors";
 import { PORT } from './config/config.js';
-import routeDatos from './router/datos.js';
 import rotuerTypeUsers from './router/TypeUsersRouter.js';
 import  routerUser from './router/UserRouter.js';
 import  routerVerifyUserProfile from './router/VerifyUserProfileRouter.js';
 import  routerVerificationType from './router/VerificationTypeRouter.js';
-import  routerPermission from './router/PermissionRouter.js';
+import  routerPermission from './router/permissionRouter.js';
 import  routerUserPermission from './router/UserPermissionRouter.js';
 import  routerProvince from './router/ProvinceRouter.js';
 import  routerCanton from './router/CantonRouter.js';
 import  routerVehiculo from './router/VehiculoRouter.js';
 import  routerDatosPersonales from './router/datosPersonalesRouter.js';
+import  routerTiposDocumentos from './router/TiposDocumentosRouter.js';
+import  routerVeriDocumentosPersonales from './router/VeriDocumentosPersonalesRouter.js';
+import  routerDocumentos from './router/DocumentosRouter.js';
+import  routerPreferenciasviaje from './router/PreferenciasviajeRouter.js';
+import  routerPreferenciasdatosP from './router/PreferenciasDatosPersonalesRouter.js';
+import  routerMarca from './router/MarcaRouter.js';
+import  routerMadelo from './router/ModeloRouter.js';
+import  routerTipoVehiculo from './router/TipoVehiculoRouter.js';
+import  routerColor from './router/ColorRouter.js';
+
 import { sequelize } from "./db/conexion.js";
 
 const _PORT = PORT || 3000;
@@ -21,7 +30,6 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
-app.use('/api', routeDatos);
 app.use('/api', rotuerTypeUsers);
 app.use('/api', routerUser);
 app.use('/api', routerVerifyUserProfile);
@@ -32,6 +40,15 @@ app.use('/api', routerProvince);
 app.use('/api', routerCanton);
 app.use('/api', routerVehiculo);
 app.use('/api', routerDatosPersonales);
+app.use('/api', routerTiposDocumentos);
+app.use('/api', routerVeriDocumentosPersonales);
+app.use('/api', routerDocumentos);
+app.use('/api', routerPreferenciasviaje);
+app.use('/api', routerPreferenciasdatosP);
+app.use('/api', routerMarca);
+app.use('/api', routerMadelo);
+app.use('/api', routerTipoVehiculo);
+app.use('/api', routerColor);
 const main = async () => {
     try {
         await sequelize.authenticate();

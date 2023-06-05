@@ -1,7 +1,10 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../db/conexion.js";
 import {  DatosPersonalesModel } from "./DatosPersonalesModel.js";
-import { UserModel } from "./UserModel.js";
+import { MarcaModel } from "./MarcaModel.js";
+import { ModeloModel } from "./ModeloModel.js";
+import { TipoVehiculoModel } from "./TipoVehiculoModel.js";
+import { ColorModel } from "./ColorModel.js";
 
 export const VehiculoModel = sequelize.define(
   "vehiculos",
@@ -13,18 +16,6 @@ export const VehiculoModel = sequelize.define(
     },
     
       placa: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      color: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      marca: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      modelo: {
         type: DataTypes.STRING,
         allowNull: false,
       },
@@ -45,7 +36,13 @@ export const VehiculoModel = sequelize.define(
   }
 );
 
-UserModel.hasMany(VehiculoModel, { foreignKey: "users_id" });
-VehiculoModel.belongsTo(UserModel, { foreignKey: "users_id" });
+MarcaModel.hasMany(VehiculoModel, { foreignKey: "marca_id" });
+VehiculoModel.belongsTo(MarcaModel, { foreignKey: "marca_id" });
 DatosPersonalesModel.hasMany(VehiculoModel, { foreignKey: "datospersonales_id" });
 VehiculoModel.belongsTo(DatosPersonalesModel, { foreignKey: "datospersonales_id" });
+ColorModel.hasMany(VehiculoModel, { foreignKey: "color_id" });
+VehiculoModel.belongsTo(ColorModel, { foreignKey: "color_id" });
+TipoVehiculoModel.hasMany(VehiculoModel, { foreignKey: "tipoVehiculoModel_id" });
+VehiculoModel.belongsTo(TipoVehiculoModel, { foreignKey: "tipoVehiculoModel_id" });
+ModeloModel.hasMany(VehiculoModel, { foreignKey: "modelo_id" });
+VehiculoModel.belongsTo(ModeloModel, { foreignKey: "modelo_id" });

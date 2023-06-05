@@ -3,7 +3,8 @@ import { VehiculoModel } from "../models/VehiculoModel.js";
 export const getVehiculo = async (req, res) => {
     try {
         const vehiculos= await VehiculoModel.findAll({
-          attributes: ['id', 'placa', 'color', 'marca','modelo','users_id','datospersonales_id']
+          attributes: ['id', 'placa', 'anioPublicacion','marca_id','datospersonales_id','color_id',
+          'tipoVehiculoModel_id','modelo_id']
         },{where: {state:true}});
       
         res.status(200).json({vehiculos});
@@ -15,8 +16,8 @@ export const getVehiculo = async (req, res) => {
 
 export const createVehiculo = async (req, res) => {
     try {
-        const { placa, color, marca, modelo,anioPublicacion, users_id, datospersonales_id} = req.body;
-        if (!(placa ||  color ||  marca ||  modelo||  anioPublicacion||  users_id || datospersonales_id)) {
+        const { placa,anioPublicacion, marca_id, datospersonales_id,color_id,tipoVehiculoModel_id,modelo_id} = req.body;
+        if (!(placa ||  anioPublicacion|| marca_id ||  color_id ||  tipoVehiculoModel_id || datospersonales_id||modelo_id)) {
           res.status(400).json({ message: "all input is required" });
         }
         const oldUser = await VehiculoModel.findOne({ where: { placa: placa } });
@@ -25,11 +26,11 @@ export const createVehiculo = async (req, res) => {
         }
         const users = await VehiculoModel.create({
             placa,
-            color, // sanitize: convert email to lowercase
-            marca,
-            modelo,
+            color_id, // sanitize: convert email to lowercase
+            marca_id,
+             modelo_id,
             anioPublicacion,
-            users_id,
+            tipoVehiculoModel_id,
             datospersonales_id
             
         });

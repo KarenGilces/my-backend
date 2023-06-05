@@ -1,5 +1,6 @@
 import express from 'express';
-import { getPermission,createPermission,updatePermission,deletePermission} from '../controller/permissionController.js';
+import { getPermission,createPermission,updatePermission,deletePermission} 
+from '../controller/permissionController.js';
 import  {verifyToken}  from '../middleware/auth.js';
 const rotuer = express.Router();
 
