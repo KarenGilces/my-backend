@@ -14,8 +14,8 @@ export const getDatos = async (req, res) => {
 };
 export const createDatos  = async (req, res) => {
   try {
-    const { cedula, names, email, date ,celular, sexo, foto ,minBibliografia,cantones_id} = req.body;
-    if (!(cedula ||  names ||  email ||  date||  celular  ||  sexo ||  foto||  minBibliografia|| cantones_id)) {
+    const { cedula, names, email, date ,celular, sexo, foto ,minBibliografia,acercade, cantones_id} = req.body;
+    if (!(cedula ||  names ||  email ||  date||  celular  ||  sexo ||  foto||  minBibliografia||acercade|| cantones_id)) {
       res.status(400).json({ message: "all input is required" });
     }
     const oldUser = await DatosPersonalesModel.findOne({ where: { cedula: cedula } });
@@ -31,6 +31,7 @@ export const createDatos  = async (req, res) => {
     sexo, // sanitize: convert email to lowercase
     foto,
       minBibliografia,
+      acercade,
       cantones_id
     });
     res.status(201).json({ users});
@@ -135,6 +136,21 @@ export const createUpdateMinBibliografia= async (req, res) => {
         datos.set({ ...datos, minBibliografia: req.body.minBibliografia });
         await datos.save();
        return res.status(200).json({ message: "minBibliografia actualizado"});
+    }
+};
+export const createUpdateAcercade= async (req, res) => {
+  
+  if(!req.params.id){
+     return res.status(404).json({ message: "acercade no encontrada"});
+  }
+  if (!req.body.acercade) {
+      return res.status(400).json({ message: "acercade is required" });
+    }
+    const datos = await DatosPersonalesModel.findOne({ where: { id: req.params.id } });
+    if (datos) {
+        datos.set({ ...datos, acercade: req.body.acercade });
+        await datos.save();
+       return res.status(200).json({ message: "acercade actualizado"});
     }
 };
 export const createUpdateDate= async (req, res) => {

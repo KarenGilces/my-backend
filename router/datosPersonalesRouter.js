@@ -1,5 +1,5 @@
 import express from 'express';
-import { getDatos ,createDatos,updateDatos,deleteDatos,createUpdateLastName,createUpdateCedula,createUpdateCelular,createUpdateNames,createUpdateDate,createUpdateMinBibliografia,createUpdateSexo} from '../controller/datosPersoanlesController.js';
+import { getDatos ,createDatos,updateDatos,deleteDatos,createUpdateLastName,createUpdateCedula,createUpdateCelular,createUpdateNames,createUpdateDate,createUpdateMinBibliografia,createUpdateAcercade, createUpdateSexo} from '../controller/datosPersoanlesController.js';
 import  {verifyToken}  from '../middleware/auth.js';
 const rotuer = express.Router();
 
@@ -12,6 +12,8 @@ rotuer.put('/datos/cedula/:id',verifyToken,createUpdateCedula);
 rotuer.put('/datos/celular/:id',verifyToken,createUpdateCelular);
 rotuer.put('/datos/sexo/:id',verifyToken,createUpdateSexo);
 rotuer.put('/datos/minBibliografia/:id',verifyToken,createUpdateMinBibliografia);
+rotuer.put('/datos/acercade/:id',verifyToken,createUpdateAcercade);
+
 rotuer.put('/datos/date/:id',verifyToken,createUpdateDate);
 rotuer.put('/datos/:id', verifyToken, updateDatos);
 rotuer.delete('/datos/:id',verifyToken, deleteDatos);

@@ -41,7 +41,11 @@ export const DatosPersonalesModel = sequelize.define(
       minBibliografia: {
         type: DataTypes.STRING,
         allowNull: true,
-      }, 
+      },
+    acercade: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
       state: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,
