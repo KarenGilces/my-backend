@@ -3,7 +3,7 @@ import { MarcaModel } from "../models/MarcaModel.js";
 export const getMarca = async (req, res) => {
   try {
     const marcas = await MarcaModel.findAll({
-      attributes: ['id', 'descripcion']
+      attributes: ['id', 'descripcion','state']
     },{where: {state:true}});
   
     res.status(200).json({marcas});
