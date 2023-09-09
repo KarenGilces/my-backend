@@ -3,7 +3,7 @@ import { TipoVehiculoModel } from "../models/TipoVehiculoModel.js";
 export const getTipoVehiculo = async (req, res) => {
   try {
     const tipoVehiculo = await TipoVehiculoModel.findAll({
-      attributes: ['id', 'descripcion']
+      attributes: ['id', 'descripcion','state']
     },{where: {state:true}});
   
     res.status(200).json({tipoVehiculo});

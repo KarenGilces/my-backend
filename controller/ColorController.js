@@ -3,7 +3,7 @@ import { ColorModel } from "../models/ColorModel.js";
 export const getColor = async (req, res) => {
   try {
     const colores = await ColorModel.findAll({
-      attributes: ['id', 'descripcion']
+      attributes: ['id', 'descripcion','state']
     },{where: {state:true}});
   
     res.status(200).json({colores});

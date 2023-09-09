@@ -3,7 +3,7 @@ import { ModeloModel} from "../models/ModeloModel.js";
   export const getModelo = async (req, res) => {
     try {
       const modelos= await ModeloModel.findAll({
-        attributes: ['id', 'descripcion', 'id_marca']
+        attributes: ['id', 'descripcion', 'id_marca','state']
       },{where: {state:true}});
     
       res.status(200).json({modelos});
