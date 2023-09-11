@@ -25,9 +25,9 @@ export const MarcaModel = sequelize.define(
   );const marcasData = [
     { descripcion: "VOLKSWAGEN" },
     { descripcion: "RENAULT" },
-    { descripcion: "VOLKSWAGEN" },
-    { descripcion: "RENAULT" },
-    { descripcion: "VOLKSWAGEN" },
+    { descripcion: "FORD" },
+    { descripcion: "PEUGEOT" },
+    { descripcion: "ABARTH" },
     { descripcion: "RENAULT" },
     { descripcion: "VOLKSWAGEN" },
     { descripcion: "RENAULT" },
