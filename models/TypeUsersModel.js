@@ -21,7 +21,8 @@ export const TypeUsersModel = sequelize.define("typeusers",{
 }
 )
 //await TypeUsersModel.sync({ force: true });
-;const tipousuarioData = [
+;
+const tipousuarioData = [
     { type: "Usuario" },
     { type: "Administrador" },
                 

@@ -86,7 +86,7 @@ export const updateUsersEmail = async (req, res) => {
       res.status(404).json({message: "user not found"});
   }
 };
-export const updateUsersPassword = async (req, res) => {
+export const updateUserPassword = async (req, res) => {
   const { password } = req.body;
   if (!(password)) {
     res.status(400).json({ message: "password is required" });
@@ -98,6 +98,32 @@ export const updateUsersPassword = async (req, res) => {
       res.status(200).json({ message: "update" });
   }else{
       res.status(404).json({message: "user not found"});
+  }
+};
+export const updateUsersPassword = async (req, res) => {
+  const { password } = req.body;
+  if (!password) {
+    return res.status(400).json({ message: "Password is required" });
+  }
+
+  try {
+    const user = await UserModel.findOne({ where: { id: req.params.id } });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Encriptar la nueva contraseña antes de guardarla
+    const saltRounds = 8; // Número de rondas de sal (ajusta según tus necesidades)
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    user.password = hashedPassword; // Asignar la contraseña encriptada al usuario
+    await user.save();
+
+    return res.status(200).json({ message: "Password updated" });
+  } catch (error) {
+    console.error("Error updating password:", error);
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 export const deleteUsers = async (req, res) => {
