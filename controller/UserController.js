@@ -8,7 +8,7 @@ import { TOKEN_KEY } from "../config/config.js";
 export const getUsers = async (req, res) => {
   try {
     const users = await UserModel.findAll({
-      attributes: ['id', 'email', 'typeusers_id']
+      attributes: ['id', 'email','password', 'typeusers_id']
     },{where: {state:true}});
   
     res.status(200).json({users});
@@ -100,8 +100,10 @@ export const updateUserPassword = async (req, res) => {
       res.status(404).json({message: "user not found"});
   }
 };
+
 export const updateUsersPassword = async (req, res) => {
   const { password } = req.body;
+
   if (!password) {
     return res.status(400).json({ message: "Password is required" });
   }
@@ -114,10 +116,13 @@ export const updateUsersPassword = async (req, res) => {
     }
 
     // Encriptar la nueva contraseña antes de guardarla
-    const saltRounds = 8; // Número de rondas de sal (ajusta según tus necesidades)
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    const saltRounds = 10; // Número de rondas de sal (ajusta según tus necesidades)
+    const newPassword = await bcrypt.hash(password, saltRounds);
 
-    user.password = hashedPassword; // Asignar la contraseña encriptada al usuario
+    // Asignar la contraseña encriptada al usuario
+    user.password = newPassword;
+    
+    // Guardar el usuario actualizado en la base de datos
     await user.save();
 
     return res.status(200).json({ message: "Password updated" });
@@ -126,6 +131,8 @@ export const updateUsersPassword = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+
+
 export const deleteUsers = async (req, res) => {
   const user = await UserModel.findOne({ where: { id: req.params.id } });
   if (user) {
