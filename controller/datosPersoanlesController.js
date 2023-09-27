@@ -2,7 +2,7 @@ import { DatosPersonalesModel } from "../models/DatosPersonalesModel.js";
 export const getDatos = async (req, res) => {
     try {
         const datos = await DatosPersonalesModel.findOne({
-          attributes: ['id', 'names','lastname','cedula', 'date','celular','sexo', 'foto'
+          attributes: ['id', 'names','lastname','cedula', 'date','acercade','celular','sexo', 'foto'
           ,'minBibliografia'] , where: {id: req.params.id }  });
         if(datos==null){
           return res.status(404).json({message: "Usuario no encontrado"});
@@ -11,6 +11,19 @@ export const getDatos = async (req, res) => {
       } catch (error) {
         return res.status(500).json({ error: error.message });
       }
+};
+export const getDatosTodos = async (req, res) => {
+  try {
+    const datos = await DatosPersonalesModel.findAll({
+      attributes: ['id', 'names','lastname','cedula', 'date','celular','sexo', 'foto','acercade'
+      ,'minBibliografia']
+    },{where: {state:true}});
+  
+    res.status(200).json({datos});
+   
+  } catch (error) {
+      res.status(500).json({ error: error.message });
+  }
 };
 export const createDatos  = async (req, res) => {
   try {
