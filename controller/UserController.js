@@ -131,8 +131,6 @@ export const updateUsersPassword = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
-
-
 export const deleteUsers = async (req, res) => {
   const user = await UserModel.findOne({ where: { id: req.params.id } });
   if (user) {
@@ -155,7 +153,7 @@ export const login = async (req, res) => {
     const user = await UserModel.findOne({
       where: { email: email.toLowerCase() },
     });
-    const userName = await DatosPersonalesModel.findOne({ where: { id: user.datosperson_id } });
+    const persona = await DatosPersonalesModel.findOne({ where: { id: user.datosperson_id } });
     if (user && (await bcrypt.compare(password, user.password))) {
       // Create token
       const token = jwt.sign({ user_id: user.id, email }, TOKEN_KEY, {
@@ -166,8 +164,8 @@ export const login = async (req, res) => {
           id:user.id,
           email:user.email,
          // typeusers_id:user.typeusers_id,
-          usuario:userName.names,
-        //  person_id:user.datosperson_id
+          usuario:persona.names,
+          person_id:persona.id
       }
      return  res.status(200).json({ dataUser, token: token });
     }
