@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { TOKEN_KEY } from "../config/config.js";
 
-
+import { TypeUsersModel } from "../models/TypeUsersModel.js";
 export const getUsers = async (req, res) => {
   try {
     const users = await UserModel.findAll({
@@ -216,3 +216,25 @@ export const refresh = (req, res) => {
 	res.cookie("token", newToken, { maxAge: jwtExpirySeconds * 1000 })
 	res.end()
 }
+export const getTodosUsuarios = async (req, res) => {
+  try {
+    const users = await UserModel.findAll({
+      attributes: ['id', 'email', 'password'],
+      where: { state: true },
+      include: [
+        {
+          model: TypeUsersModel, // Incluye los datos de TypeUsersModel
+          attributes: ['id', 'type'], // Selecciona los atributos que deseas mostrar de TypeUsersModel
+        },
+        {
+          model: DatosPersonalesModel, // Incluye los datos de DatosPersonalesModel
+          attributes: ['id','names','lastname','cedula', 'date','celular','sexo', 'foto','acercade'], // Selecciona los atributos que deseas mostrar de DatosPersonalesModel
+        },
+      ],
+    });
+  
+    res.status(200).json({ users });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
