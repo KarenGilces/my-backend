@@ -3,19 +3,25 @@ import { DatosPersonalesModel } from "../models/DatosPersonalesModel.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { TOKEN_KEY } from "../config/config.js";
-
+import { Sequelize } from 'sequelize'; 
 import { TypeUsersModel } from "../models/TypeUsersModel.js";
 export const getUsers = async (req, res) => {
   try {
     const users = await UserModel.findAll({
-      attributes: ['id', 'email','password', 'typeusers_id']
-    },{where: {state:true}});
-  
-    res.status(200).json({users});
+      attributes: ['id', 'email', 'password', 'typeusers_id'],
+      where: {
+        state: true,
+        email: { [Sequelize.Op.not]: 'admin@gmail.com' }
+      }
+    });
+
+    res.status(200).json({ users });
   } catch (error) {
-      res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
 };
+
+
 export const createUsers = async (req, res) => {
   try {
     const { names, email, password } = req.body;
@@ -216,22 +222,31 @@ export const refresh = (req, res) => {
 }
 export const getTodosUsuarios = async (req, res) => {
   try {
-    const users = await UserModel.findAll({
-      attributes: ['id', 'email', 'password'],
-      where: { state: true },
+    const usuarios = await UserModel.findAll({
+      attributes: ['id', 'email', 'password', 'typeusers_id'],
+      where: {
+        state: true,
+        typeusers_id: { [Sequelize.Op.not]: 'admin@gmail.com' } // Filtra por typeusers_id diferente a 'administrador'
+      },
       include: [
         {
           model: TypeUsersModel, // Incluye los datos de TypeUsersModel
           attributes: ['id', 'type'], // Selecciona los atributos que deseas mostrar de TypeUsersModel
+          where: {
+            type: { [Sequelize.Op.not]: 'admin@gmail.com' } // Filtra por type diferente a 'administrador'
+          }
         },
         {
           model: DatosPersonalesModel, // Incluye los datos de DatosPersonalesModel
-          attributes: ['id','names','lastname','cedula', 'date','celular','sexo', 'foto','acercade'], // Selecciona los atributos que deseas mostrar de DatosPersonalesModel
+          attributes: ['id', 'names', 'lastname', 'cedula', 'date', 'celular', 'sexo', 'foto', 'acercade'], // Selecciona los atributos que deseas mostrar de DatosPersonalesModel
+          where: {
+            names: { [Sequelize.Op.not]: 'Admin' } // Filtra por type diferente a 'administrador'
+          }
         },
       ],
     });
   
-    res.status(200).json({ users });
+    res.status(200).json({ usuarios });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

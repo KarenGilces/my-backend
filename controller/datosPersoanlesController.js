@@ -1,4 +1,6 @@
 import { DatosPersonalesModel } from "../models/DatosPersonalesModel.js";
+import { Sequelize } from 'sequelize'; 
+
 export const getDatos = async (req, res) => {
     try {
         const datos = await DatosPersonalesModel.findOne({
@@ -15,16 +17,20 @@ export const getDatos = async (req, res) => {
 export const getDatosTodos = async (req, res) => {
   try {
     const datos = await DatosPersonalesModel.findAll({
-      attributes: ['id', 'names','lastname','cedula', 'date','celular','sexo', 'foto','acercade'
-      ,'minBibliografia']
-    },{where: {state:true}});
+      attributes: ['id', 'names','lastname','cedula', 'date','celular','sexo', 'foto','acercade','minBibliografia'],
+      where: {
+        state: true,
+        names: { [Sequelize.Op.not]: 'Admin' } // Filtra por typeusers_id diferente a 'admin'
+      }
+    });
   
     res.status(200).json({datos});
    
   } catch (error) {
-      res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
 };
+
 export const createDatos  = async (req, res) => {
   try {
     const { cedula, names, email, date ,celular, sexo, foto ,minBibliografia,acercade, cantones_id} = req.body;
