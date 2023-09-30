@@ -39,23 +39,18 @@ export const ColorModel = sequelize.define(
     { descripcion: "Amarillo" },
     { descripcion: "Morado" },
     { descripcion: "Rosa" },
-
-    // Agrega más objetos para insertar más datos
   ];
   async function sedcolor() {
     try {
-      await sequelize.sync({ force: false }); // Esto eliminará y recreará la tabla (ten cuidado en producción)
-  
-      for (const colorData of coloresData) {
-        await ColorModel.create(colorData);
+      const colores = await ColorModel.findAll();
+      if(colores && colores.length <= 0){
+        for (const colorData of coloresData) {
+          await ColorModel.create(colorData);
+        }
       }
-  
-      console.log("Datos de lo colores  insertados con éxito.");
     } catch (error) {
       console.error("Error al insertar los colores:", error);
-    } finally {
-      //sequelize.close(); // Cierra la conexión a la base de datos al finalizar
-    }
+    } 
   }
-  
+
   sedcolor();

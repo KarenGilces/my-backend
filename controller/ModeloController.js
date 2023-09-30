@@ -1,10 +1,17 @@
 import { ModeloModel} from "../models/ModeloModel.js";
-
+import { MarcaModel } from "../models/MarcaModel.js";
   export const getModelo = async (req, res) => {
     try {
       const modelos= await ModeloModel.findAll({
-        attributes: ['id', 'descripcion', 'id_marca','state']
-      },{where: {state:true}});
+        attributes: ['id', 'descripcion', 'id_marca','state'],
+        where: {state:true},
+        include: [
+          {
+            model: MarcaModel, 
+            attributes: ['id', 'descripcion'] 
+          }
+        ]
+    });
     
       res.status(200).json({modelos});
      

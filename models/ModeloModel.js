@@ -25,9 +25,6 @@ export const ModeloModel = sequelize.define(
   }  
   );MarcaModel.hasMany(ModeloModel, { foreignKey: "id_marca" });
   ModeloModel.belongsTo(MarcaModel, { foreignKey: "id_marca" });
-
- 
-
   const marcasData = [
     {
       descripcion: "Toyota",
@@ -977,17 +974,15 @@ export const ModeloModel = sequelize.define(
   
   async function seed() {
     try {
-      await sequelize.sync({ force: false });
-  
+      const marcas = await MarcaModel.findAll();
+      if(marcas && marcas.length <= 0){
       for (const marcaData of marcasData) {
         const { modelos, ...marcaWithoutModelos } = marcaData;
         const existingMarca = await MarcaModel.findOne({
           where: { descripcion: marcaWithoutModelos.descripcion },
         });
-  
         if (!existingMarca) {
           const marca = await MarcaModel.create(marcaWithoutModelos);
-  
           if (Array.isArray(modelos)) {
             for (const modeloData of modelos) {
               const modelo = await ModeloModel.create({
@@ -998,26 +993,10 @@ export const ModeloModel = sequelize.define(
           }
         }
       }
-  
-      console.log("Datos de marcas y modelos insertados con éxito.");
-  
-      // Consulta las marcas con sus modelos asociados
-      const marcasConModelos = await MarcaModel.findAll({
-        include: ModeloModel, // Esto incluirá los modelos asociados a cada marca
-      });
-  
-      // Muestra las marcas con sus modelos
-      marcasConModelos.forEach((marca) => {
-        console.log(`Marca: ${marca.descripcion}`);
-        marca.modelos.forEach((modelo) => {
-          console.log(`  Modelo: ${modelo.descripcion}`);
-        });
-      });
+    }
     } catch (error) {
       console.error("Error al insertar datos de marcas y modelos:", error);
-    } finally {
-      //sequelize.close(); // Cierra la conexión a la base de datos al finalizar
-    }
+    } 
   }
   
   MarcaModel.hasMany(ModeloModel, { foreignKey: "id_marca" });

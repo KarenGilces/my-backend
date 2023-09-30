@@ -33,18 +33,14 @@ export const TipoVehiculoModel = sequelize.define(
   ];
   async function seeedtipo() {
     try {
-      await sequelize.sync({ force: false }); // Esto eliminará y recreará la tabla (ten cuidado en producción)
-  
+      const tipo = await TipoVehiculoModel.findAll();
+      if(tipo && tipo.length <= 0){
       for (const tiposData of tipovehiculoData) {
         await TipoVehiculoModel.create(tiposData);
       }
-  
-      console.log("Datos de tipos vehículo  insertados con éxito.");
+    }
     } catch (error) {
       console.error("Error al insertar datos de tipos de vehículos:", error);
-    } finally {
-      //sequelize.close(); // Cierra la conexión a la base de datos al finalizar
-    }
+    } 
   }
-  
   seeedtipo();

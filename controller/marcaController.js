@@ -4,7 +4,7 @@ export const getMarca = async (req, res) => {
   try {
     const marcas = await MarcaModel.findAll({
       attributes: ['id', 'descripcion','state']
-    },{where: {state:true}});
+    ,where: {state:true}});
   
     res.status(200).json({marcas});
    

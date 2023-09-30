@@ -4,7 +4,7 @@ export const getTipoVehiculo = async (req, res) => {
   try {
     const tipoVehiculo = await TipoVehiculoModel.findAll({
       attributes: ['id', 'descripcion','state']
-    },{where: {state:true}});
+    ,where: {state:true}});
   
     res.status(200).json({tipoVehiculo});
    
