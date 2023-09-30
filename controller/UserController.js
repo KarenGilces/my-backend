@@ -3,19 +3,25 @@ import { DatosPersonalesModel } from "../models/DatosPersonalesModel.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { TOKEN_KEY } from "../config/config.js";
-
-
+import { Sequelize } from 'sequelize'; 
+import { TypeUsersModel } from "../models/TypeUsersModel.js";
 export const getUsers = async (req, res) => {
   try {
     const users = await UserModel.findAll({
-      attributes: ['id', 'email','password', 'typeusers_id']
-    },{where: {state:true}});
-  
-    res.status(200).json({users});
+      attributes: ['id', 'email', 'password', 'typeusers_id'],
+      where: {
+        state: true,
+        email: { [Sequelize.Op.not]: 'admin@gmail.com' }
+      }
+    });
+
+    res.status(200).json({ users });
   } catch (error) {
-      res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
 };
+
+
 export const createUsers = async (req, res) => {
   try {
     const { names, email, password } = req.body;
@@ -214,27 +220,34 @@ export const refresh = (req, res) => {
 	res.cookie("token", newToken, { maxAge: jwtExpirySeconds * 1000 })
 	res.end()
 }
-
-export const uploadImagen = async (req, res) => {
+export const getTodosUsuarios = async (req, res) => {
   try {
-    if (!req.file) {
-      return res.status(400).json({'message':'No se proporcionó una imagen'});
-    }
-    const allowedMimes = ['image/jpeg', 'image/png', 'image/jpg'];
-    if (allowedMimes.includes(req.file.mimetype)) {
-      const persona= await DatosPersonalesModel.findOne({where:{id:req.params.id}});
-      if(persona){
-        const nombreImagen = req.file.filename;
-        persona.set({...persona,foto:nombreImagen});
-        await persona.save();
-        res.status(200).json({ message: "Imagen subida con éxito" });
-        }else{
-        res.status(404).json({message: "Usuario no encontrado"});
-      }
-    } else {
-      res.status(404).json({message: "Solo se permiten archivos JPEG, PNG y JPG"});
-    }
+    const usuarios = await UserModel.findAll({
+      attributes: ['id', 'email', 'password', 'typeusers_id'],
+      where: {
+        state: true,
+        typeusers_id: { [Sequelize.Op.not]: 'admin@gmail.com' } // Filtra por typeusers_id diferente a 'administrador'
+      },
+      include: [
+        {
+          model: TypeUsersModel, // Incluye los datos de TypeUsersModel
+          attributes: ['id', 'type'], // Selecciona los atributos que deseas mostrar de TypeUsersModel
+          where: {
+            type: { [Sequelize.Op.not]: 'admin@gmail.com' } // Filtra por type diferente a 'administrador'
+          }
+        },
+        {
+          model: DatosPersonalesModel, // Incluye los datos de DatosPersonalesModel
+          attributes: ['id', 'names', 'lastname', 'cedula', 'date', 'celular', 'sexo', 'foto', 'acercade'], // Selecciona los atributos que deseas mostrar de DatosPersonalesModel
+          where: {
+            names: { [Sequelize.Op.not]: 'Admin' } // Filtra por type diferente a 'administrador'
+          }
+        },
+      ],
+    });
+  
+    res.status(200).json({ usuarios });
   } catch (error) {
-      res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
 };
