@@ -5,7 +5,7 @@ export const getPreferenciasviaje = async (req, res) => {
   try {
     const Preferenciasviaje = await PreferenciasviajeModel.findAll({
       attributes: ['id', 'preferencia','state']
-    },{where: {state:true}});
+    ,where: {state:true}});
   
     res.status(200).json({Preferenciasviaje});
    
